@@ -1,0 +1,1 @@
+{"version":3,"file":"pap-calculator.service.js","sourceRoot":"","sources":["pap-calculator.service.ts"],"names":[],"mappings":";;;;;;;AAAA,sCAA0C;AAG1C,IAAa,oBAAoB;IAAjC;IAIA,CAAC;IAHC,2CAAY,GAAZ,UAAa,KAAa;QACxB,MAAM,CAAC,OAAO,CAAC,OAAO,CAAC,SAAS,CAAC,KAAK,CAAC,CAAC,CAAC;IAC3C,CAAC;IACH,2BAAC;AAAD,CAAC,AAJD,IAIC;AAJY,oBAAoB;IADhC,iBAAU,EAAE;GACA,oBAAoB,CAIhC;AAJY,oDAAoB"}
