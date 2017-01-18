@@ -15,11 +15,15 @@
     "@angular/platform-browser": "^2.4.3",
     "@angular/platform-browser-dynamic": "^2.4.3",
     "core-js": "^2.4.1",
+    "jquery": "^3.1.1",
     "lite-server": "^2.2.2",
     "pap-js": "^1.2.0",
     "rxjs": "^5.0.3",
     "systemjs": "^0.19.41",
     "tsc": "^1.20150623.0",
     "zone.js": "^0.7.4"
+  },
+  "devDependencies": {
+    "@types/jquery": "^2.0.39"
   }
 }

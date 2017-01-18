@@ -11,25 +11,51 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var pap_calculator_service_1 = require("./pap-calculator.service");
 var AppComponent = (function () {
-    function AppComponent(papCalculatorService) {
+    function AppComponent(applicationRef, papCalculatorService, zone) {
+        var _this = this;
+        this.applicationRef = applicationRef;
         this.papCalculatorService = papCalculatorService;
+        this.zone = zone;
         this.LZZ = 1;
         this.STKL = 1;
         this.RE4 = 25000;
+        window.angularComponentRef = {
+            zone: this.zone,
+            componentFn: function () { return _this.sendToCalc(); },
+            component: this,
+            applicationRef: this.applicationRef,
+            LZZ: this.LZZ,
+            STKL: this.STKL,
+            RE4: this.RE4
+        };
     }
     AppComponent.prototype.sendToCalc = function () {
-        var _this = this;
-        this.papCalculatorService.calculateTax({ LZZ: this.LZZ, STKL: this.STKL, RE4: this.RE4 * 100 }).then(function (output) { return _this.output = output; });
+        console.log("Calculation...");
+        window.angularComponentRef.LZZ = document.getElementById("LZZ").value;
+        window.angularComponentRef.STKL = document.getElementById("STKL").value;
+        window.angularComponentRef.RE4 = document.getElementById("RE4").value;
+        return this.papCalculatorService.calculateTax({ LZZ: window.angularComponentRef.LZZ, STKL: window.angularComponentRef.STKL, RE4: window.angularComponentRef.RE4 * 100 });
+    };
+    AppComponent.prototype.ngOnInit = function () {
+        (function () {
+            var conversationalForm = new cf.ConversationalForm({
+                formEl: document.getElementById("form"),
+                submitCallback: function () {
+                    var receivedOutput;
+                    window.angularComponentRef.zone.run(function () { window.angularComponentRef.componentFn().then(function (output) { return conversationalForm.addRobotChatResponse("Für den Lohnzahlungszeitraum einzubehaltende Lohnsteuer: " + output.LSTLZZ / 100 + " €"); }); });
+                }
+            });
+        })();
     };
     return AppComponent;
 }());
 AppComponent = __decorate([
     core_1.Component({
         selector: 'my-app',
-        template: "Lohnzahlungszeitraum: <select [(ngModel)]='LZZ'>\n      <option selected value=\"1\">Jahr</option>\n      <option value=\"2\">Monat</option>\n      <option value=\"3\">Woche</option>\n      <option value=\"4\">Tag</option>\n    </select><br>\n    Steuerklasse: <select [(ngModel)]='STKL'>\n      <option selected value=\"1\">I</option>\n      <option value=\"2\">II</option>\n      <option value=\"3\">III</option>\n      <option value=\"4\">IV</option>\n      <option value=\"5\">V</option>\n      <option value=\"6\">VI</option>\n    </select><br>\n    Einkommen in Euro: <input step=\"1000\" type='number' [(ngModel)]='RE4'><br>\n    <button (click)=\"sendToCalc()\">Steuer berechnen</button><br>\n    <h4 *ngIf='output' >F\u00FCr den Lohnzahlungszeitraum einzubehaltende Lohnsteuer: {{ output.LSTLZZ / 100 | currency:'EUR':true:'1.2-2'}}</h4>\n    <h4 *ngIf='output' >F\u00FCr den Lohnzahlungszeitraum einzubehaltender Solidaritaetszuschlag: {{ output.SOLZLZZ / 100 | currency:'EUR':true:'1.2-2'}}</h4>\n    <h4 *ngIf='output' >Verbrauchter Freibetrag bei Berechnung des laufenden Arbeitslohns: {{ output.VFRB / 100 | currency:'EUR':true:'1.2-2'}}</h4>",
+        templateUrl: 'app/app.component.html',
         providers: [pap_calculator_service_1.PapCalculatorService]
     }),
-    __metadata("design:paramtypes", [pap_calculator_service_1.PapCalculatorService])
+    __metadata("design:paramtypes", [core_1.ApplicationRef, pap_calculator_service_1.PapCalculatorService, core_1.NgZone])
 ], AppComponent);
 exports.AppComponent = AppComponent;
 //# sourceMappingURL=app.component.js.map

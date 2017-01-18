@@ -1,0 +1,23 @@
+<form id="form" action="#" method="GET">
+  Lohnzahlungszeitraum:
+  <select id="LZZ" cf-questions="Für welchen Lohnzahlungszeitraum soll die Steuer berechnet werden?" name="LZZ" [(ngModel)]='LZZ'>
+    <option value="1">Jahr</option>
+    <option value="2">Monat</option>
+    <option value="3">Woche</option>
+    <option value="4">Tag</option>
+  </select><br>
+  Steuerklasse:
+  <select id="STKL" name="STKL" cf-questions="Was ist deine Steuerklasse?" [(ngModel)]='STKL'>
+    <option value="1">I</option>
+    <option value="2">II</option>
+    <option value="3">III</option>
+    <option value="4">IV</option>
+    <option value="5">V</option>
+    <option value="6">VI</option>
+  </select><br>
+  Einkommen in Euro: <input id="RE4" cf-questions="Was ist dein Einkommen? (Angabe in Euro)|Wieviel verdienst du? (Angabe in Euro)" name="RE4" step="1000" type='number' [(ngModel)]='RE4'><br>
+  <!--<button (click)="sendToCalc()">Steuer berechnen</button><br>-->
+</form>
+<h4 *ngIf='output' >Für den Lohnzahlungszeitraum einzubehaltende Lohnsteuer: {{ output.LSTLZZ / 100 | currency:'EUR':true:'1.2-2'}}</h4>
+<h4 *ngIf='output' >Für den Lohnzahlungszeitraum einzubehaltender Solidaritaetszuschlag: {{ output.SOLZLZZ / 100 | currency:'EUR':true:'1.2-2'}}</h4>
+<h4 *ngIf='output' >Verbrauchter Freibetrag bei Berechnung des laufenden Arbeitslohns: {{ output.VFRB / 100 | currency:'EUR':true:'1.2-2'}}</h4>
